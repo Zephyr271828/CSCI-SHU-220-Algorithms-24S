@@ -323,7 +323,7 @@ The pseudocode for this problem is shown in the next page.\\
                     \If{$arr1[i]<arr2[j]$ OR $j>\textsc{len}(arr2)$}
                         \State $res.\textsc{append}(arr1[i])$
                         \State $i \gets i+1$
-                        \State $inv \gets inv+i+j-2$
+                        \State $inv \gets inv+j-1$
                     \Else
                         \State $res.\textsc{append}(arr2[j])$
                         \State $j \gets j+1$
