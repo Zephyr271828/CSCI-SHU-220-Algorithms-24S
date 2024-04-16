@@ -14,9 +14,8 @@ def GAME(n):
         V[i].add_neighbor(V[i + 1])
     # Type B edge
     for i in range(2, n):
-        for j in range(2, i):
-            if i % j == 0:
-                V[i].add_neighbor(V[j])
+        for j in range(2 * i, n, i):
+            V[j].add_neighbor(V[i])
     # Type C edge
     for i in range(2, n):
         if i ** 2 % n != i:
