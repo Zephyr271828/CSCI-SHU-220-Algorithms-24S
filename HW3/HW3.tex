@@ -156,9 +156,14 @@ Because $i=1,2,\dots,m$, $w=0,1,\dots,W$, hence this algorithm is of time comple
 Now, with the conclusion from (a), we can limit the search space of $w$ for $i=2,\dots,m$ to $0,1,\dots,w_{\text{max}}^2$.
 Then, the global maximum is equal to max$_{w}\{\text{DP}(2,w)+\lfloor\frac{W-w}{w_1}\rfloor\cdot v_1\}$.
 \vspace{10pt}\\
-Due the correctness of the naive infinite knapsack algorithm, this algorithm is also correct.
-Besides, because the search space of $w$ shrinks from $0,\dots,W$ to $0,\dots,w_{\text{max}}^2$,
-the time complexity of the revised algorithm is simply $O(nw_{\text{max}}^2)$.
+For items $2,\dots,m$, given any total weight limit $w$, with the infinte knapsack problem,
+we can obtain the optimal solution that maximizes the total value of the items chosen. 
+For the whole problem, we learned from (a) that the total weight of items $2,\dots,m\leq w_max^2$. 
+Therefore, we can limit the total for $2,\dots,m$ to $w_max^2$ and simply take as many item 1 as possible for the weight limit we haven't used.
+By using this method, we can obtain the correct optimal solution.
+\vspace{10pt}\\
+Because the weight limit for item $2,\dots,m$ shrinks from $W$ to $w_{\text{max}}^2$, and it takes $O(1)$ time to add item 1 to the partial solution,
+the time complexity of the revised algorithm is $O(nw_{\text{max}}^2)$.
 \vspace{10pt}\\
 Below is the pseudocode:
 \begin{lstlisting}[language=Python]
@@ -243,7 +248,9 @@ def COUNT(G, s):
     L = [(item[0], item[1]) for item in cnt.items()]
     return L
 \end{lstlisting}
-This algorithm is correct because it handles the length of path by referring to the depth of the level in the BFS tree.
+This algorithm is correct because all the nodes that have the same shortest-path-length are on the same level of the BFS tree, 
+so by counting the times a node appear in the shallowest level where it appears, we can count the number of shortest paths to the node.
+\vspace{10pt}\\
 Because only the shortest path will be considered, each edge will be visited once and only once.
 The sum of the number of times each node is visited is $O(m)$, therefore, this algorithm is $O(m)$ (and consequently $O(m+n)$).
 \end{solution}
@@ -306,8 +313,9 @@ and mark the current vertex the previous vertex of all its neighbors (if a neigh
 This algorithm can always find the shortest path between 2 and 1, because the nearest vertex will always come to the head of the queue.
 So when 1 is visited, the path is guaranteed to be shortest. 
 \vspace{10pt}\\
-The time complexity of this algorithm is $O(n\log(n))$ because the total number of edges in the graph is $O(n\log(n))$,
-and each edge is visited at most once.
+The time complexity of BFS is $O(n\log(n))$ because the total number of edges in the graph is $O(n\log(n))$,
+and each edge is visited at most once. The time needed to construct the graph is also $O(n\log(n))$ because each edge takes $O(1)$ time to construct.
+Therefore, the overall complexity of the algorithm is $O(n\log(n))$.
 \vspace{10pt}\\
 The pseudocode is given as follows:
 \begin{lstlisting}[language=Python]
@@ -373,8 +381,10 @@ For each node $u$, we store all the nodes $v$ that $(u,v)\in E$ as its \textbf{o
 Then we perform DFS based on out-neighbors to obtain all the nodes that $s$ can reach, and DFS based on in-neighbors to obtain all the nodes that can reach $s$.
 Lastly, we take the intersection of the two results, so that we can obtain the set of points in the strongly connected components containing $s$.
 \vspace{10pt}\\
-This algorithm is correct, as we know DFS can be used to obtain all the nodes that $s$ can reach,
-so we can obtain all the nodes that can reach $s$ if we go along the directed edges in reversed direction. 
+This algorithm is correct, as we know DFS can reach a point $t$ iff it's reachable from $s$. 
+If we reverse the directions of all edges, and perform DFS again, a point $t$ is reached iff $\exists$ a path consisting of reversed from $s$ to $t$,
+i.e., $\exists$ a edge from $t$ to $s$, $s$ is reachable from $t$. By taking the union of the results obtained by the 2 DFS's, 
+a node $t$ is kept iff it is reachable from $s$ and it can reach $s$, i.e., it is strongly connected to $s$.
 \vspace{10pt}\\
 The time complexity to process in-neighbors and out-neighbors is $O(m)$. The time complexity of DFS is $O(n+m)$. Therefore, the time complexity of the whole algorithm is $O(n+m)$.
 \vspace{10pt}\\
